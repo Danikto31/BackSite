@@ -20,7 +20,7 @@ public class LogInController {
     private BuyerService buyerService;
 
     @GetMapping("login")
-    public boolean loginUser(@RequestBody LoginBody loginBody, HttpServletRequest request, HttpServletResponse response){
+    public boolean loginUser(@RequestBody LoginBody loginBody){
         return buyerService.getByUsernameAndPassword(loginBody.getUsername(), loginBody.getPassword()) != null;
     }
 

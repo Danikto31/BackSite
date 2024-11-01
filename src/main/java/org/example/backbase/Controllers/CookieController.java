@@ -3,11 +3,10 @@ package org.example.backbase.Controllers;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.backbase.Services.CookieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/api/cookie")
 public class CookieController {
 
-    private final List<String> listOfCookies = new ArrayList<>();
+    @Autowired
+    private CookieService cookieService;
+
     private static final String CookieName = "kukich";
 
     public static String getCookieName() {
@@ -38,13 +39,12 @@ public class CookieController {
         cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
         cookie.setPath("/"); // Доступна для всех путей
         response.addCookie(cookie);
-        listOfCookies.add(cookie.getValue());
+        cookieService.saveCookie(cookie);
         return "Cookie set!";
     }
 
     @GetMapping("/delete-cookie")
     public String deleteCookie(HttpServletResponse response, HttpServletRequest request) {
-        Arrays.stream(request.getCookies()).filter(p->p.getName().equals(CookieName)).forEach(c->listOfCookies.remove(c.getValue()));
         Cookie cookie = new Cookie(CookieName, null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
@@ -52,9 +52,9 @@ public class CookieController {
         return "Cookie deleted!";
     }
 
-    @GetMapping("/getCookieList")
-    public List<String> getListOfCookies(){
-        return listOfCookies;
+    @GetMapping("/get-cookie-value")
+    public String getCookieValue(@RequestParam Long id){
+        return cookieService.getCookieById(id).getCookie().getValue();
     }
 
 }
