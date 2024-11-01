@@ -26,4 +26,10 @@ public class AuthController {
         clientService.saveClient(client.getUsername(), client.getPassword());
         return ResponseEntity.ok("Регистрация прошла успешно");
     }
+
+    @GetMapping("/checkClient")
+    public boolean checkClient(@RequestBody String name){
+        return clientService.findByUsername(name) != null;
+    }
+
 }
