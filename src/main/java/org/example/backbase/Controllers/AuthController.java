@@ -3,6 +3,7 @@ package org.example.backbase.Controllers;
 import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Entity.SellerClient;
 import org.example.backbase.Services.BuyerService;
+import org.example.backbase.Services.SellerService;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class AuthController {
 
     @Autowired
     private BuyerService buyerService;
+
+    @Autowired
+    private SellerService sellerService;
 
     @PostMapping("/registerClient")
     public ResponseEntity<String> registerClient(@RequestBody BuyerClient buyerClient) {
@@ -31,7 +35,7 @@ public class AuthController {
     public ResponseEntity<String> registerSeller(@RequestBody SellerClient sellerClient){
         try {
 
-            buyerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
+            sellerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
             return ResponseEntity.ok("Регистрия продавца прошла успешно");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Пользователь(Продавец) уже существует");
