@@ -12,7 +12,7 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client saveClient(String username, String password) throws PSQLException {
+    public Client saveClient(String username, String password) {
         Client client = new Client(username, password);
         return clientRepository.save(client);
     }

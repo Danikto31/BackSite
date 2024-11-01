@@ -22,7 +22,7 @@ public class AuthController {
             // Сохраняем пользователя
             clientService.saveClient(client.getUsername(), client.getPassword());
             return ResponseEntity.ok("Регистрация прошла успешно");
-        } catch (PSQLException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Пользователь уже существует");
         }
     }
