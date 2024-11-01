@@ -20,4 +20,17 @@ public class CookieService {
     public CookieClient getCookieById(Long id){
         return cookieRepository.getCookieClientById(id);
     }
+
+    public CookieClient getCookieClientByCookie(Cookie cookie){
+        return cookieRepository.getCookieClientByCookie(cookie);
+    }
+
+    public void deleteByCookie(Cookie cookie){
+        cookieRepository.deleteByCookie(cookie);
+    }
+
+    public void deleteById(Long id){
+        cookieRepository.deleteById(id);
+    }
+
 }

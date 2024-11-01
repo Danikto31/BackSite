@@ -45,6 +45,7 @@ public class CookieController {
 
     @GetMapping("/delete-cookie")
     public String deleteCookie(HttpServletResponse response, HttpServletRequest request) {
+        Arrays.stream(request.getCookies()).filter(c->c.getName().equals(CookieName)).forEach(c->cookieService.deleteByCookie(c));
         Cookie cookie = new Cookie(CookieName, null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
@@ -57,4 +58,8 @@ public class CookieController {
         return cookieService.getCookieById(id).getCookie().getValue();
     }
 
+    @PostMapping("/delete-cookie-id")
+    public void removeCookieById(@RequestParam Long id){
+        cookieService.deleteById(id);
+    }
 }
