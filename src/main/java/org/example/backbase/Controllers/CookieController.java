@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CookieController {
 
     private final List<String> listOfCookies = new ArrayList<>();
+    private final String CookieName = "kukich";
 
     @GetMapping("/get-cookie")
     public String getCookie(@CookieValue String cookieValue){
@@ -27,7 +28,7 @@ public class CookieController {
 
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("kukich", UUID.randomUUID().toString());
+        Cookie cookie = new Cookie(CookieName, UUID.randomUUID().toString());
         cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
         cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
         cookie.setPath("/"); // Доступна для всех путей
@@ -38,8 +39,8 @@ public class CookieController {
 
     @GetMapping("/delete-cookie")
     public String deleteCookie(HttpServletResponse response, HttpServletRequest request) {
-        Arrays.stream(request.getCookies()).filter(p->p.getName().equals("kukich")).forEach(c->listOfCookies.remove(c.getValue()));
-        Cookie cookie = new Cookie("kukich", null);
+        Arrays.stream(request.getCookies()).filter(p->p.getName().equals(CookieName)).forEach(c->listOfCookies.remove(c.getValue()));
+        Cookie cookie = new Cookie(CookieName, null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
