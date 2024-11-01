@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/cookie")
 public class CookieController {
@@ -18,7 +20,7 @@ public class CookieController {
 
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("kukich", "cookieValue");
+        Cookie cookie = new Cookie("kukich", UUID.randomUUID().toString());
         cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
         cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
         cookie.setPath("/"); // Доступна для всех путей
