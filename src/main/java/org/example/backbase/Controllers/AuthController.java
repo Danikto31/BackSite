@@ -1,8 +1,7 @@
 package org.example.backbase.Controllers;
 
-import org.example.backbase.Entity.Client;
+import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Services.ClientService;
-import org.postgresql.util.PSQLException;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,10 @@ public class AuthController {
     private ClientService clientService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerClient(@RequestBody Client client) {
+    public ResponseEntity<String> registerClient(@RequestBody BuyerClient buyerClient) {
         try {
             // Сохраняем пользователя
-            clientService.saveClient(client.getUsername(), client.getPassword());
+            clientService.saveClient(buyerClient.getUsername(), buyerClient.getPassword());
             return ResponseEntity.ok("Регистрация прошла успешно");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Пользователь уже существует");

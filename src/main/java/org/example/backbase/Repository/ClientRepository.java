@@ -1,11 +1,11 @@
 package org.example.backbase.Repository;
 
-import org.example.backbase.Entity.Client;
+import org.example.backbase.Entity.BuyerClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<BuyerClient, Long> {
     // Методы для поиска клиентов по имени пользователя (если нужно)
-    Client findByUsername(String username);
+    BuyerClient findByUsername(String username);
 }

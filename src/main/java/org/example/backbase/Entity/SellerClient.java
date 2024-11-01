@@ -8,8 +8,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "sellerclients")
+public class SellerClient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,12 @@ public class Client {
     @Column(nullable = false)
     private String password;
 
-    public Client(String username, String password) {
+    public SellerClient(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public Client() {
+    public SellerClient() {
 
     }
 

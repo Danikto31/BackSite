@@ -1,8 +1,7 @@
 package org.example.backbase.Services;
 
-import org.example.backbase.Entity.Client;
+import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Repository.ClientRepository;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +11,12 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client saveClient(String username, String password) {
-        Client client = new Client(username, password);
-        return clientRepository.save(client);
+    public BuyerClient saveClient(String username, String password) {
+        BuyerClient buyerClient = new BuyerClient(username, password);
+        return clientRepository.save(buyerClient);
     }
 
-    public Client findByUsername(String username) {
+    public BuyerClient findByUsername(String username) {
         return clientRepository.findByUsername(username);
     }
 }
