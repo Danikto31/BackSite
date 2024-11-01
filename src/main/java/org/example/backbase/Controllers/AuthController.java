@@ -2,7 +2,7 @@ package org.example.backbase.Controllers;
 
 import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Entity.SellerClient;
-import org.example.backbase.Services.ClientService;
+import org.example.backbase.Services.BuyerService;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private ClientService clientService;
+    private BuyerService buyerService;
 
     @PostMapping("/registerClient")
     public ResponseEntity<String> registerClient(@RequestBody BuyerClient buyerClient) {
         try {
             // Сохраняем пользователя
-            clientService.saveClient(buyerClient.getUsername(), buyerClient.getPassword());
+            buyerService.saveClient(buyerClient.getUsername(), buyerClient.getPassword());
             return ResponseEntity.ok("Регистрация клиента прошла успешно");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Пользователь(Клиент) уже существует");
@@ -31,7 +31,7 @@ public class AuthController {
     public ResponseEntity<String> registerSeller(@RequestBody SellerClient sellerClient){
         try {
 
-            clientService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
+            buyerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
             return ResponseEntity.ok("Регистрия продавца прошла успешно");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Пользователь(Продавец) уже существует");
@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping
     public boolean checkClient(@RequestBody String name){
-        return clientService.findByUsername(name) != null;
+        return buyerService.findByUsername(name) != null;
     }
 
 }

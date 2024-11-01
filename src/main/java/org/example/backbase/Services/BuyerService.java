@@ -1,22 +1,22 @@
 package org.example.backbase.Services;
 
 import org.example.backbase.Entity.BuyerClient;
-import org.example.backbase.Repository.ClientRepository;
+import org.example.backbase.Repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService {
+public class BuyerService {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private BuyerRepository buyerRepository;
 
     public BuyerClient saveClient(String username, String password) {
         BuyerClient buyerClient = new BuyerClient(username, password);
-        return clientRepository.save(buyerClient);
+        return buyerRepository.save(buyerClient);
     }
 
     public BuyerClient findByUsername(String username) {
-        return clientRepository.findByUsername(username);
+        return buyerRepository.findByUsername(username);
     }
 }
