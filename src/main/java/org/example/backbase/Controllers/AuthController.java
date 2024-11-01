@@ -2,6 +2,7 @@ package org.example.backbase.Controllers;
 
 import org.example.backbase.Entity.Client;
 import org.example.backbase.Services.ClientService;
+import org.postgresql.util.PSQLException;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerClient(@RequestBody Client client) {
-        // Проверьте, существует ли пользователь с таким именем
-        if (clientService.findByUsername(client.getUsername()) != null) {
+        try {
+            // Сохраняем пользователя
+            clientService.saveClient(client.getUsername(), client.getPassword());
+            return ResponseEntity.ok("Регистрация прошла успешно");
+        } catch (PSQLException e) {
             return ResponseEntity.badRequest().body("Пользователь уже существует");
         }
-
-        // Сохраняем пользователя
-        clientService.saveClient(client.getUsername(), client.getPassword());
-        return ResponseEntity.ok("Регистрация прошла успешно");
     }
 
-    @GetMapping("/checkClient")
     public boolean checkClient(@RequestBody String name){
         return clientService.findByUsername(name) != null;
     }
