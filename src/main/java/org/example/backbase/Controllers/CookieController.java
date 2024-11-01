@@ -1,17 +1,24 @@
 package org.example.backbase.Controllers;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/cookie")
 public class CookieController {
+
+    private final List<String> listOfCookies = new ArrayList<>();
 
     @GetMapping("/get-cookie")
     public String getCookie(@CookieValue String cookieValue){
@@ -25,16 +32,23 @@ public class CookieController {
         cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
         cookie.setPath("/"); // Доступна для всех путей
         response.addCookie(cookie);
+        listOfCookies.add(cookie.getValue());
         return "Cookie set!";
     }
 
     @GetMapping("/delete-cookie")
-    public String deleteCookie(HttpServletResponse response) {
+    public String deleteCookie(HttpServletResponse response, HttpServletRequest request) {
+        Arrays.stream(request.getCookies()).filter(p->p.getName().equals("kukich")).forEach(c->listOfCookies.remove(c.getValue()));
         Cookie cookie = new Cookie("kukich", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
         return "Cookie deleted!";
+    }
+
+    @GetMapping("/getCookieList")
+    public List<String> getListOfCookies(){
+        return listOfCookies;
     }
 
 }
