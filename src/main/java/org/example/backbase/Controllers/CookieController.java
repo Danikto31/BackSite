@@ -3,6 +3,7 @@ package org.example.backbase.Controllers;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CookieController {
 
     private final List<String> listOfCookies = new ArrayList<>();
-    private final String CookieName = "kukich";
+    private static final String CookieName = "kukich";
+
+    public static String getCookieName() {
+        return CookieName;
+    }
 
     @GetMapping("/get-cookie")
     public String getCookie(@CookieValue String cookieValue){

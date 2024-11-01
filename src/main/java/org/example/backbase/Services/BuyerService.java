@@ -19,4 +19,8 @@ public class BuyerService {
     public BuyerClient findByUsername(String username) {
         return buyerRepository.findByUsername(username);
     }
+
+    public BuyerClient getByUsernameAndPassword(String username, String password){
+        return buyerRepository.getByUsernameAndPassword(username,password);
+    }
 }
