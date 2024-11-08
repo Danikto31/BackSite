@@ -15,6 +15,9 @@ public class CookieClient {
     @Column(name = "cookie", unique = true)
     private Cookie cookie;
 
+    @Column(unique = true)
+    private String username;
+
     public CookieClient(Cookie cookie){
         this.cookie = cookie;
     }
@@ -36,5 +39,13 @@ public class CookieClient {
 
     public void setCookie(Cookie cookie) {
         this.cookie = cookie;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

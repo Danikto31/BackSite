@@ -17,6 +17,11 @@ public class CookieService {
         return cookieRepository.save(cookieClient);
     }
 
+    public CookieClient getCookieByUsername(String username)
+    {
+        return cookieRepository.getCookieClientByUsername(username);
+    }
+
     public CookieClient getCookieById(Long id){
         return cookieRepository.getCookieClientById(id);
     }
@@ -24,6 +29,8 @@ public class CookieService {
     public CookieClient getCookieClientByCookie(Cookie cookie){
         return cookieRepository.getCookieClientByCookie(cookie);
     }
+
+
 
     public void deleteByCookie(Cookie cookie){
         cookieRepository.deleteByCookie(cookie);

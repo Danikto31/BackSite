@@ -21,6 +21,7 @@ public class BuyerClient {
     @Column(nullable = false)
     private String password;
 
+
     public BuyerClient(String username, String password) {
         this.username = username;
         this.password = password;

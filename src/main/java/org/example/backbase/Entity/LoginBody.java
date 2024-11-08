@@ -13,6 +13,13 @@ public class LoginBody {
         return password;
     }
 
+    public LoginBody(){}
+
+    public LoginBody(String username, String password){
+        this.password = password;
+        this.username = username;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
