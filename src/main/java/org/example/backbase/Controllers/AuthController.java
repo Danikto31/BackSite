@@ -34,7 +34,7 @@ public class AuthController {
     @PostMapping("/registerSeller")
     public ResponseEntity<String> registerSeller(@RequestBody SellerClient sellerClient){
         try {
-
+            if(buyerService.findByUsername(sellerClient.getUsername())==null)return ResponseEntity.badRequest().body("Пользователь не зарегестрирован как покупатель");
             sellerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
             return ResponseEntity.ok("Регистрия продавца прошла успешно");
         }catch (Exception e){

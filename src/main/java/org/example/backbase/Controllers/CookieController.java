@@ -3,8 +3,13 @@ package org.example.backbase.Controllers;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.juli.logging.Log;
+import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Entity.LoginBody;
+import org.example.backbase.Entity.SellerClient;
+import org.example.backbase.Services.BuyerService;
 import org.example.backbase.Services.CookieService;
+import org.example.backbase.Services.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,12 @@ public class CookieController {
 
     private CookieFactory cookieFactory;
 
+    @Autowired
+    private BuyerService buyerService;
+
+    @Autowired
+    private SellerService sellerService;
+
     private static final String CookieName = "kukich";
 
 
@@ -33,6 +44,25 @@ public class CookieController {
     public String getCookie(@CookieValue String cookieValue){
         return cookieValue;
     }
+
+    @GetMapping("/check-cookie")
+    public String checkCookie(@RequestBody LoginBody loginBody)
+    {
+        BuyerClient buyerClient = buyerService.findByUsername(loginBody.getUsername());
+
+        if(buyerClient!=null&&buyerClient.getPassword().equals(loginBody.getPassword())){
+
+            SellerClient sellerClient = sellerService.findByUsername(loginBody.getUsername());
+
+            if(sellerClient!=null&&sellerClient.getPassword().equals(loginBody.getPassword()))
+            {
+                return "Seller";
+            }
+        return "Buyer";
+        }
+        return null;
+    }
+
 
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response, @RequestBody LoginBody loginBody) {
