@@ -15,5 +15,9 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     @Query("update Goods g set g.count = g.count - ?2 where g.id = ?1")
     int decreaseCount(long id, int count);
 
+    List<Goods> findDistinctByTitleLikeIgnoreCaseAndCategoriesIn(String title, Set<String> categories);
+
+    List<Goods> findDistinctByTitleLikeIgnoreCase(String title);
+
     List<Goods> findDistinctByCategoriesIn(Set<String> categories);
 }

@@ -42,4 +42,8 @@ public class Goods {
     protected Goods() {
 
     }
+
+    public long getId() {
+        return id;
+    }
 }
