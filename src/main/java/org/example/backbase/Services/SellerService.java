@@ -13,8 +13,8 @@ public class SellerService {
     @Autowired
     private SellerRepository sellerRepository;
 
-    public SellerClient saveClient(String username, String password) {
-        SellerClient sellerClient = new SellerClient(username, password);
+    public SellerClient saveClient(String username, String password, String email, String fullName, String phoneNumber, String otherData) {
+        SellerClient sellerClient = new SellerClient(username, password, email, fullName, phoneNumber, otherData);
         return sellerRepository.save(sellerClient);
     }
 

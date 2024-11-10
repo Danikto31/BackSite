@@ -24,7 +24,7 @@ public class AuthController {
     public ResponseEntity<String> registerClient(@RequestBody BuyerClient buyerClient) {
         try {
             // Сохраняем пользователя
-            buyerService.saveClient(buyerClient.getUsername(), buyerClient.getPassword());
+            buyerService.saveClient(buyerClient.getUsername(), buyerClient.getPassword(), buyerClient.getEmail(), buyerClient.getFullName(), buyerClient.getPhoneNumber());
             return ResponseEntity.ok("Регистрация клиента прошла успешно");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Пользователь(Клиент) уже существует");
@@ -35,7 +35,7 @@ public class AuthController {
     public ResponseEntity<String> registerSeller(@RequestBody SellerClient sellerClient){
         try {
             if(buyerService.findByUsername(sellerClient.getUsername())==null)return ResponseEntity.badRequest().body("Пользователь не зарегестрирован как покупатель");
-            sellerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword());
+            sellerService.saveClient(sellerClient.getUsername(),sellerClient.getPassword(), sellerClient.getEmail(), sellerClient.getFullName(), sellerClient.getPhoneNumber(), sellerClient.getOtherData());
             return ResponseEntity.ok("Регистрия продавца прошла успешно");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Пользователь(Продавец) уже существует");
