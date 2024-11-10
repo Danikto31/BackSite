@@ -11,8 +11,8 @@ public class BuyerService {
     @Autowired
     private BuyerRepository buyerRepository;
 
-    public BuyerClient saveClient(String username, String password) {
-        BuyerClient buyerClient = new BuyerClient(username, password);
+    public BuyerClient saveClient(String username, String password, String email, String fullName, String phoneNumber) {
+        BuyerClient buyerClient = new BuyerClient(username, password, email, fullName, phoneNumber);
         return buyerRepository.save(buyerClient);
     }
 
