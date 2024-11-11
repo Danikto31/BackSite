@@ -9,43 +9,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class CookieClient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "cookie", unique = true)
+    @Column(unique = true)
     private Cookie cookie;
 
     @Column(unique = true)
-    private String username;
+    private long user_id;
 
-    public CookieClient(Cookie cookie){
+    public CookieClient(Cookie cookie, long userId){
         this.cookie = cookie;
+        this.user_id = userId;
     }
 
     public CookieClient(){}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
-        return id;
+        return user_id;
     }
 
 
     public Cookie getCookie() {
         return cookie;
-    }
-
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }
