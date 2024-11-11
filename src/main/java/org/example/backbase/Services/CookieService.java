@@ -12,14 +12,9 @@ public class CookieService {
     @Autowired
     CookieRepository cookieRepository;
 
-    public CookieClient saveCookie(Cookie cookie){
-        CookieClient cookieClient= new CookieClient(cookie);
+    public CookieClient saveCookie(Cookie cookie, long user_id){
+        CookieClient cookieClient= new CookieClient(cookie, user_id);
         return cookieRepository.save(cookieClient);
-    }
-
-    public CookieClient getCookieByUsername(String username)
-    {
-        return cookieRepository.getCookieClientByUsername(username);
     }
 
     public CookieClient getCookieById(Long id){

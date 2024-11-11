@@ -16,7 +16,5 @@ public interface CookieRepository extends JpaRepository<CookieClient,Long> {
 
     void deleteByCookie(Cookie cookie);
 
-    CookieClient getCookieClientByUsername(String username);
-
 
 }

@@ -66,13 +66,14 @@ public class CookieController {
 
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response, @RequestBody LoginBody loginBody) {
-        cookieFactory = new CookieFactory(loginBody.getUsername(),loginBody.getPassword(),UUID.randomUUID().toString());
+        BuyerClient buyerClient = buyerService.findByUsername(loginBody.getUsername());
+        cookieFactory = new CookieFactory(buyerClient.getUsername(),buyerClient.getPassword(),UUID.randomUUID().toString());
         Cookie cookie = new Cookie(CookieName, cookieFactory.genCookieValue());
         cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
         cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
         cookie.setPath("/"); // Доступна для всех путей
         response.addCookie(cookie);
-        cookieService.saveCookie(cookie);
+        cookieService.saveCookie(cookie, buyerClient.getId());
         return "Cookie set!" + "\n" + Arrays.toString(CookieFactory.decodeCookieValue(cookieFactory.genCookieValue()));
     }
 
