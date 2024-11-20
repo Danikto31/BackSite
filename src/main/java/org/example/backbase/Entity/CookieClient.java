@@ -10,24 +10,24 @@ public class CookieClient {
 
     @Id
     @Column(unique = true)
-    private Cookie cookie;
+    private String cookie;
 
     @Column(unique = true)
-    private long user_id;
+    private long userId;
 
-    public CookieClient(Cookie cookie, long userId){
+    public CookieClient(String cookie, long userId){
         this.cookie = cookie;
-        this.user_id = userId;
+        this.userId = userId;
     }
 
     public CookieClient(){}
 
     public Long getId() {
-        return user_id;
+        return userId;
     }
 
 
-    public Cookie getCookie() {
+    public String getCookie() {
         return cookie;
     }
 }

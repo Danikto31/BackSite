@@ -12,26 +12,26 @@ public class CookieService {
     @Autowired
     CookieRepository cookieRepository;
 
-    public CookieClient saveCookie(Cookie cookie, long user_id){
-        CookieClient cookieClient= new CookieClient(cookie, user_id);
-        return cookieRepository.save(cookieClient);
+    public void saveCookie(String cookie, long userId){
+        CookieClient cookieClient= new CookieClient(cookie, userId);
+        cookieRepository.save(cookieClient);
     }
 
-    public CookieClient getCookieById(Long id){
-        return cookieRepository.getCookieClientById(id);
+    public CookieClient getCookieByUserId(long id){
+        return cookieRepository.getCookieClientByUserId(id);
     }
 
-    public CookieClient getCookieClientByCookie(Cookie cookie){
+    public CookieClient getCookieClientByCookie(String cookie){
         return cookieRepository.getCookieClientByCookie(cookie);
     }
 
 
 
-    public void deleteByCookie(Cookie cookie){
+    public void deleteByCookie(String cookie){
         cookieRepository.deleteByCookie(cookie);
     }
 
-    public void deleteById(Long id){
+    public void deleteById(long id){
         cookieRepository.deleteById(id);
     }
 

@@ -20,6 +20,8 @@ public class BuyerService {
         return buyerRepository.findByUsername(username);
     }
 
+
+
     public BuyerClient getByUsernameAndPassword(String username, String password){
         return buyerRepository.getByUsernameAndPassword(username,password);
     }

@@ -2,17 +2,18 @@ package org.example.backbase.Controllers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.backbase.Entity.Goods;
+import org.example.backbase.Entity.GoodsRequestBody;
 import org.example.backbase.Services.CookieService;
 import org.example.backbase.Services.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
@@ -31,26 +32,28 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @PostMapping("/saveGood")
-    public void saveGood(HttpServletRequest request, HttpServletResponse response) {
+    public void saveGood(HttpServletRequest request, HttpServletResponse response, @RequestBody GoodsRequestBody goodsRequestBody) {
         long sellerId;
         try {
-            sellerId = cookieService.getCookieClientByCookie(
+            String cookieName = CookieController.getCookieName();
+            Cookie cookie=
                     Arrays.stream(request.getCookies())
-                            .filter(c -> c.getName().equals(CookieController.getCookieName()))
-                            .findFirst().orElseThrow()
-            ).getId();
-        } catch (NoSuchElementException e) {
+                            .filter(c -> cookieName.equals(c.getName()))
+                            .findFirst().orElseThrow();
+
+            sellerId = cookieService.getCookieClientByCookie(cookie.getValue()).getId();
+        } catch (Exception e) {
             System.out.println("User is not logged in");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
         long goodId = goodsService.saveGood(
-                (String) request.getAttribute("title"),
+                goodsRequestBody.getTitle(),
                 sellerId,
-                (int) request.getAttribute("cost"),
-                (int) request.getAttribute("count"),
-                (String) request.getAttribute("description"),
-                (String) request.getAttribute("categories")
+                goodsRequestBody.getCost(),
+                goodsRequestBody.getCount(),
+                goodsRequestBody.getDescription(),
+                goodsRequestBody.getCategories()
         );
         try (Writer writer = response.getWriter()) {
             if (goodId < 0) throw new NoSuchElementException("The good wasn't saved");

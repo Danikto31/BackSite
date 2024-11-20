@@ -12,16 +12,16 @@ public class CookieFactory {
 
     private final String password;
 
-    private final String UniqueUUId;
+    private final String userid;
 
-    public CookieFactory(String username, String password, String uniqueUUId){
+    public CookieFactory(String userid, String username, String password){
         this.password = password;
         this.username = username;
-        this.UniqueUUId = uniqueUUId;
+        this.userid = userid;
     }
 
     public String genCookieValue(){
-        String builder = username +":"+ password +":"+ UniqueUUId;
+        String builder = userid+":"+username +":"+ password;
         return Base64.getUrlEncoder().encodeToString(builder.getBytes(StandardCharsets.UTF_8));
     }
 

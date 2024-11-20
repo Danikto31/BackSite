@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CookieRepository extends JpaRepository<CookieClient,Long> {
 
-    CookieClient getCookieClientById(Long id);
+    CookieClient getCookieClientByCookie(String cookie);
 
-    CookieClient getCookieClientByCookie(Cookie cookie);
+    CookieClient getCookieClientByUserId(Long id);
 
     void deleteById(Long id);
 
-    void deleteByCookie(Cookie cookie);
+    void deleteByCookie(String cookie);
 
 
 }

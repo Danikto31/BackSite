@@ -57,9 +57,9 @@ public class LogInController {
     }
 
     @GetMapping("/login")
-    public boolean loginUser(@RequestBody LoginBody loginBody)
+    public void loginUser(@RequestBody LoginBody loginBody)
     {
-        return buyerService.getByUsernameAndPassword(loginBody.getUsername(), loginBody.getPassword()) != null;
+        buyerService.saveClient(loginBody.getUsername(),loginBody.getPassword(),loginBody.getEmail(),loginBody.getFullName(),loginBody.getPhoneNumber());
     }
 
 

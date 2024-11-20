@@ -1,19 +1,25 @@
 package org.example.backbase.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LoginBody {
 
+    @JsonProperty("username")
     private String username;
 
+    @JsonProperty("password")
     private String password;
 
+    @JsonProperty("email")
     private String email;
 
+    @JsonProperty("fullName")
     private String fullName;
 
+    @JsonProperty("phoneNumber")
     @Column(nullable = false)
     private String phoneNumber;
 
@@ -25,6 +31,11 @@ public class LoginBody {
         this.email = email;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public LoginBody(String username, String password){
+        this.username = username;
+        this.password = password;
     }
 
     public String getPassword() {

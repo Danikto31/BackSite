@@ -1,5 +1,6 @@
 package org.example.backbase.Controllers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,10 +12,11 @@ import org.example.backbase.Services.BuyerService;
 import org.example.backbase.Services.CookieService;
 import org.example.backbase.Services.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/cookie")
@@ -33,11 +35,11 @@ public class CookieController {
 
     private static final String CookieName = "kukich";
 
-
-
     public static String getCookieName() {
         return CookieName;
     }
+
+
 
 
     @GetMapping("/get-cookie")
@@ -66,34 +68,59 @@ public class CookieController {
 
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response, @RequestBody LoginBody loginBody) {
-        BuyerClient buyerClient = buyerService.findByUsername(loginBody.getUsername());
-        cookieFactory = new CookieFactory(buyerClient.getUsername(),buyerClient.getPassword(),UUID.randomUUID().toString());
-        Cookie cookie = new Cookie(CookieName, cookieFactory.genCookieValue());
-        cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
-        cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
-        cookie.setPath("/"); // Доступна для всех путей
-        response.addCookie(cookie);
-        cookieService.saveCookie(cookie, buyerClient.getId());
-        return "Cookie set!" + "\n" + Arrays.toString(CookieFactory.decodeCookieValue(cookieFactory.genCookieValue()));
+        BuyerClient buyerClient = buyerService.getByUsernameAndPassword(loginBody.getUsername(), loginBody.getPassword());
+        if(buyerClient!=null) {
+            cookieFactory = new CookieFactory(buyerClient.getId().toString(),buyerClient.getUsername(), buyerClient.getPassword());
+            Cookie cookie = new Cookie(CookieName, cookieFactory.genCookieValue());
+            cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
+            cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
+            cookie.setPath("/"); // Доступна для всех путей
+            response.addCookie(cookie);
+            cookieService.saveCookie(cookie.getValue(), buyerClient.getId());
+            return "Cookie set!" + "\n" + Arrays.toString(CookieFactory.decodeCookieValue(cookieFactory.genCookieValue()));
+        }else {
+            System.out.println("Username not found");
+            return null;
+        }
     }
 
-    @GetMapping("/delete-cookie")
-    public String deleteCookie(HttpServletResponse response, HttpServletRequest request) {
-        Arrays.stream(request.getCookies()).filter(c->c.getName().equals(CookieName)).forEach(c->cookieService.deleteByCookie(c));
-        Cookie cookie = new Cookie(CookieName, null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return "Cookie deleted!";
+    @GetMapping("/decode-cookie")
+    public String[] decodeCookie(@RequestBody decodeCookie dcookie){
+        return CookieFactory.decodeCookieValue(dcookie.getBase64Cookie());
     }
 
-    @GetMapping("/get-cookie-value")
-    public String getCookieValue(@RequestParam Long id){
-        return cookieService.getCookieById(id).getCookie().getValue();
+
+
+    public static class Username{
+
+        public String getUsername() {
+            return username;
+        }
+
+        @JsonProperty("username")
+        public String username;
+
+        public Username(){}
+
+        public Username(String username){
+            this.username = username;
+        }
     }
 
-    @PostMapping("/delete-cookie-id")
-    public void removeCookieById(@RequestParam Long id){
-        cookieService.deleteById(id);
+    public static class decodeCookie{
+
+        public String getBase64Cookie() {
+            return base64Cookie;
+        }
+
+        @JsonProperty("cookie")
+        private String base64Cookie;
+
+        public decodeCookie(String base64Cookie){this.base64Cookie=base64Cookie;}
+
+        public decodeCookie(){}
+
     }
+
+
 }
