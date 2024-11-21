@@ -16,6 +16,10 @@ public class BuyerService {
         return buyerRepository.save(buyerClient);
     }
 
+    public BuyerClient saveClient(BuyerClient buyerClient) {
+        return buyerRepository.save(buyerClient);
+    }
+
     public BuyerClient findByUsername(String username) {
         return buyerRepository.findByUsername(username);
     }

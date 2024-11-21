@@ -18,6 +18,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Arrays;
 
+//todo Нахуй это нужно по апи, это чисто системная тема, входящая в логин
 @RestController
 @RequestMapping("/api/cookie")
 public class CookieController {
@@ -65,10 +66,9 @@ public class CookieController {
         return null;
     }
 
-
     @GetMapping("/set-cookie")
     public String setCookie(HttpServletResponse response, @RequestBody LoginBody loginBody) {
-        BuyerClient buyerClient = buyerService.getByUsernameAndPassword(loginBody.getUsername(), loginBody.getPassword());
+        BuyerClient buyerClient = loginBody.getClient();
         if(buyerClient!=null) {
             cookieFactory = new CookieFactory(buyerClient.getId().toString(),buyerClient.getUsername(), buyerClient.getPassword());
             Cookie cookie = new Cookie(CookieName, cookieFactory.genCookieValue());

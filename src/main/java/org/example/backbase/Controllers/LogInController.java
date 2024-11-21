@@ -59,7 +59,8 @@ public class LogInController {
     @GetMapping("/login")
     public void loginUser(@RequestBody LoginBody loginBody)
     {
-        buyerService.saveClient(loginBody.getUsername(),loginBody.getPassword(),loginBody.getEmail(),loginBody.getFullName(),loginBody.getPhoneNumber());
+        //todo Здесь нужно вызывать сет куки, чтобы залогинить
+        buyerService.saveClient(loginBody.getClient());
     }
 
 
