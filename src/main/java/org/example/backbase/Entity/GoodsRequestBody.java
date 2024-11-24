@@ -63,10 +63,7 @@ public class GoodsRequestBody {
 
 
     public GoodsRequestBody(String title, long sellerId, int cost, int count){
-        this.title = title;
-        this.sellerId = sellerId;
-        this.cost = cost;
-        this.count = count;
+        new GoodsRequestBody(title, sellerId, cost, count, null, null);
     }
 
     public GoodsRequestBody(){}

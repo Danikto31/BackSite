@@ -66,20 +66,19 @@ public class CookieController {
         return null;
     }
 
-    @GetMapping("/set-cookie")
-    public String setCookie(HttpServletResponse response, @RequestBody LoginBody loginBody) {
-        BuyerClient buyerClient = loginBody.getClient();
+    public Cookie setCookie(@RequestBody LoginBody loginBody) {
+        BuyerClient buyerClient = buyerService.getClientByLoginBody(loginBody);
         if(buyerClient!=null) {
             cookieFactory = new CookieFactory(buyerClient.getId().toString(),buyerClient.getUsername(), buyerClient.getPassword());
             Cookie cookie = new Cookie(CookieName, cookieFactory.genCookieValue());
             cookie.setMaxAge(7 * 24 * 60 * 60); // Срок действия куки - 7 дней
             cookie.setHttpOnly(true); // Устанавливаем флаг HttpOnly
             cookie.setPath("/"); // Доступна для всех путей
-            response.addCookie(cookie);
             cookieService.saveCookie(cookie.getValue(), buyerClient.getId());
-            return "Cookie set!" + "\n" + Arrays.toString(CookieFactory.decodeCookieValue(cookieFactory.genCookieValue()));
+            return cookie;
+            //return "Cookie set!" + "\n" + Arrays.toString(CookieFactory.decodeCookieValue(cookieFactory.genCookieValue()));
         }else {
-            System.out.println("Username not found");
+            System.err.println("Username "+ loginBody.getUsername()+" not found");
             return null;
         }
     }

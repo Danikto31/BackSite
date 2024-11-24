@@ -1,8 +1,6 @@
 package org.example.backbase.Entity;
 
 import jakarta.persistence.*;
-import jakarta.servlet.http.Cookie;
-import org.springframework.web.bind.annotation.RestController;
 
 @Entity
 @Table(name = "cookie")
@@ -14,6 +12,8 @@ public class CookieClient {
 
     @Column(unique = true)
     private long userId;
+
+    //TODO: Добавить поле isSeller
 
     public CookieClient(String cookie, long userId){
         this.cookie = cookie;

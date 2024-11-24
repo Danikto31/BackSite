@@ -1,8 +1,6 @@
 package org.example.backbase.Services;
 
-import org.example.backbase.Entity.BuyerClient;
 import org.example.backbase.Entity.SellerClient;
-import org.example.backbase.Repository.BuyerRepository;
 import org.example.backbase.Repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

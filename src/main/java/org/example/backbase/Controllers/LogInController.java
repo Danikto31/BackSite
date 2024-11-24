@@ -24,6 +24,9 @@ public class LogInController {
     private BuyerService buyerService;
 
     @Autowired
+    CookieController cookieController;
+
+    @Autowired
     private CookieService cookieService;
 
     private CookieClient cookieClient;
@@ -56,12 +59,15 @@ public class LogInController {
     return null;
     }
 
-    @GetMapping("/login")
-    public void loginUser(@RequestBody LoginBody loginBody)
+    @PostMapping("/login")
+    public void loginUser(HttpServletResponse response, @RequestBody LoginBody loginBody)
     {
-        //todo Здесь нужно вызывать сет куки, чтобы залогинить
-        buyerService.saveClient(loginBody.getClient());
+        Cookie cookie = cookieController.setCookie(loginBody);
+        if (cookie == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            response.addCookie(cookie);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
     }
-
-
 }

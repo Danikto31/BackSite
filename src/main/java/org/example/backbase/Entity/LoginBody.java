@@ -3,13 +3,12 @@ package org.example.backbase.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import org.example.backbase.Services.BuyerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LoginBody {
-
-    private BuyerService buyerService;
 
     @JsonProperty("username")
     private String username;
@@ -56,11 +55,6 @@ public class LoginBody {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Nullable
-    public BuyerClient getClient() {
-        return buyerService.getByUsernameAndPassword(username, password);
     }
 
 //    public String getEmail() {
