@@ -12,7 +12,6 @@ import jakarta.persistence.Column;
 public class SellerClient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)

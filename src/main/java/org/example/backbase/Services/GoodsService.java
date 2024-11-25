@@ -15,9 +15,8 @@ public class GoodsService {
     @Autowired
     private GoodsRepository goodsRepository;
 
-    public long saveGood(String title, long sellerId, int cost, int count, String description, String categories) {
-        Goods good = goodsRepository.save(new Goods(title, sellerId, cost, count, description, categories));
-        return goodsRepository.findById(good.getId()).map(Goods::getId).orElse(-1L);
+    public long saveGood(Goods goods) {
+        return goodsRepository.save(goods).getId();
     }
 
     public Optional<Goods> findById(long id) {

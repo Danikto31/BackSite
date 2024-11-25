@@ -32,29 +32,16 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @PostMapping("/saveGood")
-    public void saveGood(HttpServletRequest request, HttpServletResponse response, @RequestBody GoodsRequestBody goodsRequestBody) {
+    public void saveGood(HttpServletRequest request, HttpServletResponse response, @RequestBody Goods goods) {
         long sellerId;
         try {
-            String cookieName = CookieController.getCookieName();
-            Cookie cookie=
-                    Arrays.stream(request.getCookies())
-                            .filter(c -> cookieName.equals(c.getName()))
-                            .findFirst().orElseThrow();
-
-            sellerId = cookieService.getCookieClientByCookie(cookie.getValue()).getId();
+            sellerId = cookieService.getCookieClientFromRequest(request).getId();
         } catch (Exception e) {
             System.out.println("User is not logged in");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        long goodId = goodsService.saveGood(
-                goodsRequestBody.getTitle(),
-                sellerId,
-                goodsRequestBody.getCost(),
-                goodsRequestBody.getCount(),
-                goodsRequestBody.getDescription(),
-                goodsRequestBody.getCategories()
-        );
+        long goodId = goodsService.saveGood(goods.setSellerId(sellerId));
         try (Writer writer = response.getWriter()) {
             if (goodId < 0) throw new NoSuchElementException("The good wasn't saved");
             writer.write("goodId: " + goodId);

@@ -11,8 +11,7 @@ public class SellerService {
     @Autowired
     private SellerRepository sellerRepository;
 
-    public SellerClient saveClient(String username, String password, String email, String fullName, String phoneNumber, String otherData) {
-        SellerClient sellerClient = new SellerClient(username, password, email, fullName, phoneNumber, otherData);
+    public SellerClient saveClient(SellerClient sellerClient) {
         return sellerRepository.save(sellerClient);
     }
 

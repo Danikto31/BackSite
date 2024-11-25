@@ -30,9 +30,8 @@ public class Goods {
     @Column
     private String categories;
 
-    public Goods(String title, long sellerId, int cost, int count, String description, String categories) {
+    public Goods(String title, int cost, int count, String description, String categories) {
         this.title = title;
-        this.sellerId = sellerId;
         this.cost = cost;
         this.count = count;
         this.description = description;
@@ -41,6 +40,11 @@ public class Goods {
 
     protected Goods() {
 
+    }
+
+    public Goods setSellerId(long sellerId) {
+        this.sellerId = sellerId;
+        return this;
     }
 
     public long getId() {
